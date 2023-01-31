@@ -1,0 +1,35 @@
+import discord
+import feedparser
+import random
+
+intents = discord.Intents.all()
+
+client = discord.Client(intents=intents)
+
+@client.event
+async def on_ready():
+    print(f'{client.user} has connected to Discord!')
+
+@client.event
+async def on_message(message):
+    if message.content == '!rss random':
+        feed = feedparser.parse("http://feeds.feedburner.com/TheHackersNews")
+        if 'title' in feed['channel']:
+            await message.channel.send(f'Tytuł: {feed["channel"]["title"]}')
+        else:
+            await message.channel.send(f'Informacje o kanałach: {feed["channel"]["description"]}')
+        random_entry = random.choice(feed['entries'])
+        await message.channel.send(f'• {random_entry["title"]}: {random_entry["link"]}')
+
+
+    if message.content.startswith('!rss latest'):
+        feed = feedparser.parse("http://feeds.feedburner.com/TheHackersNews")
+        if 'title' in feed['channel']:
+            await message.channel.send(f'Tytuł: {feed["channel"]["title"]}')
+        else:
+            await message.channel.send(f'Informacje o kanałach: {feed["channel"]["description"]}')
+        for i in range(3):
+            latest_entry = feed['entries'][i]
+            await message.channel.send(f'• {latest_entry["title"]}: {latest_entry["link"]}')
+
+client.run('TOKEN')
