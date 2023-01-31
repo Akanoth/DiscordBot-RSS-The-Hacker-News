@@ -1,2 +1,7 @@
 discord
 feedparser
+
+##instalacja
+
+pip install discord
+pip install feedparser
