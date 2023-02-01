@@ -8,7 +8,7 @@ client = discord.Client(intents=intents)
 
 @client.event
 async def on_ready():
-    print(f'{client.user} has connected to Discord!')
+    print(f'Bot {client.user} działa i dołączył do serwera!')
 
 @client.event
 async def on_message(message):
